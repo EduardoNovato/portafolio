@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/eduardo-retrato.jpg';
+import SectionHeading from './SectionHeading.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  index: string;
+}
+
+const { lang, index } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id={t.sections.about.id} class="border-t border-line py-24 sm:py-28">
+  <SectionHeading index={index} title={t.sections.about.label} />
+
+  <div class="grid gap-10 md:grid-cols-[minmax(0,250px)_minmax(0,1fr)] md:gap-12">
+    <figure class="reveal max-w-[300px]">
+      <div class="theme-fade overflow-hidden rounded-2xl border border-line bg-surface-2">
+        <Image
+          src={portrait}
+          alt={t.about.photoAlt}
+          widths={[300, 500, 600]}
+          sizes="(min-width: 768px) 250px, 300px"
+          class="aspect-[4/5] w-full object-cover"
+        />
+      </div>
+      <figcaption class="mt-3 font-mono text-[11px] text-faint">{t.sidebar.location}</figcaption>
+    </figure>
+
+    <div class="reveal" style="--reveal-delay: 100ms">
+      <div class="space-y-5">
+        {t.about.paragraphs.map((paragraph) => <p class="text-[17px] leading-[1.75] text-muted">{paragraph}</p>)}
+      </div>
+
+      <h3 class="mt-12 font-mono text-[11px] uppercase tracking-[0.14em] text-faint">{t.about.educationLabel}</h3>
+      <ul class="mt-4 divide-y divide-line border-y border-line">
+        {
+          t.about.education.map((item) => (
+            <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+              <div>
+                <p class="font-serif text-xl text-ink">{item.title}</p>
+                <p class="mt-0.5 text-sm text-muted">{item.place}</p>
+              </div>
+              <p class="shrink-0 font-mono text-xs text-faint">{item.period}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

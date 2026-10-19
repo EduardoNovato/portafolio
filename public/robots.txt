@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eduardocoronell.vercel.app/sitemap-index.xml

@@ -1,0 +1,24 @@
+{
+  "company": "Deeping Business",
+  "role": {
+    "es": "Desarrollador Android",
+    "en": "Android Developer"
+  },
+  "start": "2022-11",
+  "end": "2023-11",
+  "highlights": {
+    "es": [
+      "Interfaces de usuario con Kotlin y Jetpack Compose.",
+      "Lógica funcional de componentes y pantallas bajo arquitectura **MVVM**.",
+      "Pruebas unitarias con **JUnit**.",
+      "Trabajo en equipo en productos orientados a la experiencia de usuario."
+    ],
+    "en": [
+      "Built user interfaces with Kotlin and Jetpack Compose.",
+      "Implemented component and screen logic following **MVVM** architecture.",
+      "Wrote unit tests with **JUnit**.",
+      "Worked as part of a team on user-experience-focused products."
+    ]
+  },
+  "stack": ["Kotlin", "Jetpack Compose", "MVVM", "JUnit"]
+}

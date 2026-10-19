@@ -1,0 +1,24 @@
+# build
+dist/
+.astro/
+.vercel/
+
+# dependencias
+node_modules/
+
+# logs y entorno
+npm-debug.log*
+.env
+.env.*
+
+# sistema, editor y skills locales de agentes
+.DS_Store
+Thumbs.db
+.claude/
+.agents/
+skills-lock.json
+
+# Originales de trabajo: la copia pública del CV está en public/cv/
+# y la foto recortada en src/assets/
+/Eduardo.pdf
+/foto.jpeg

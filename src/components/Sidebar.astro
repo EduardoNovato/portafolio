@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/eduardo-avatar.jpg';
+import LangSwitch from './LangSwitch.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
+import UiIcon from './UiIcon.astro';
+import { sectionOrder, useTranslations, type Lang } from '../i18n/ui';
+import { site } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const nav = sectionOrder.map((key) => t.sections[key]);
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(t.contact.mailSubject)}`;
+const year = new Date().getFullYear();
+---
+
+<div data-backdrop class="fixed inset-0 z-40 bg-black/55 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" aria-hidden="true"></div>
+
+<aside
+  id="sidebar"
+  data-sidebar
+  data-open="false"
+  aria-label={t.sidebar.profileLabel}
+  class="theme-fade fixed inset-y-0 left-0 z-50 flex w-[min(300px,86vw)] -translate-x-full flex-col overflow-y-auto overscroll-contain border-r border-line bg-bg px-6 pb-5 pt-5 transition-transform duration-300 ease-out [scrollbar-color:var(--line-strong)_transparent] [scrollbar-width:thin] data-[open=true]:translate-x-0 lg:w-[300px] lg:translate-x-0"
+>
+  <div class="flex items-center justify-between gap-3">
+    <LangSwitch lang={lang} />
+    <ThemeSwitch lang={lang} />
+  </div>
+
+  <div class="mt-6 flex items-center gap-3.5">
+    <Image
+      src={avatar}
+      alt=""
+      width={52}
+      height={52}
+      densities={[1, 2]}
+      class="size-[52px] shrink-0 rounded-full border border-line-strong object-cover"
+      loading="eager"
+    />
+    <div class="min-w-0 flex-1">
+      <p class="font-serif text-[22px] leading-tight text-ink" translate="no">{site.name}</p>
+      <p class="mt-0.5 font-mono text-[11px] text-muted">{t.sidebar.title}</p>
+    </div>
+    <button
+      type="button"
+      data-menu-close
+      aria-label={t.sidebar.menuClose}
+      class="-mr-2 grid size-10 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-ink lg:hidden"
+    >
+      <UiIcon name="close" class="size-5" />
+    </button>
+  </div>
+
+  <dl class="mt-6 grid gap-2">
+    <div class="theme-fade rounded-xl border border-line bg-surface px-4 py-3">
+      <dt class="font-mono text-[10.5px] uppercase tracking-[0.14em] text-faint">{t.sidebar.locationLabel}</dt>
+      <dd class="mt-1 text-[13.5px] text-ink">{t.sidebar.location}</dd>
+    </div>
+    <div class="theme-fade rounded-xl border border-line bg-surface px-4 py-3">
+      <dt class="font-mono text-[10.5px] uppercase tracking-[0.14em] text-faint">{t.sidebar.languagesLabel}</dt>
+      <dd class="mt-1 text-[13.5px] text-ink">{t.sidebar.languages}</dd>
+    </div>
+  </dl>
+
+  <div class="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-2 whitespace-nowrap">
+    <a
+      href={site.cv}
+      download
+      class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2.5 text-[13px] font-medium text-accent-ink transition-opacity hover:opacity-90"
+    >
+      <UiIcon name="download" class="size-4" />
+      {t.sidebar.cv}
+      {t.sidebar.cvLang && <span class="font-mono text-[10px] opacity-80" aria-hidden="true">{t.sidebar.cvLang}</span>}
+      {t.sidebar.cvLangLong && <span class="sr-only">{t.sidebar.cvLangLong}</span>}
+    </a>
+    <a
+      href={mailto}
+      class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-line-strong px-3 py-2.5 text-[13px] font-medium text-ink transition-colors hover:bg-surface-2"
+    >
+      {t.sidebar.write}
+    </a>
+  </div>
+
+  <hr class="mt-6 border-line" />
+
+  <nav class="mt-4" aria-label={t.sidebar.navLabel}>
+    <ul class="space-y-0.5">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              data-nav={item.id}
+              class="group flex items-center gap-3 rounded-lg px-2 py-[7px] text-[14px] text-muted transition-colors hover:text-ink aria-[current=location]:text-ink"
+            >
+              <span class="h-px w-7 origin-left scale-x-[0.57] bg-line-strong transition-[transform,background-color] duration-300 group-hover:scale-x-[0.85] group-aria-[current=location]:scale-x-100 group-aria-[current=location]:bg-accent" />
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="mt-auto pt-6">
+    <ul class="flex flex-col gap-1">
+      <li>
+        <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13px] text-muted transition-colors hover:text-ink">
+          <UiIcon name="linkedin" class="size-4" />
+          LinkedIn
+        </a>
+      </li>
+      <li>
+        <a href={site.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13px] text-muted transition-colors hover:text-ink">
+          <UiIcon name="github" class="size-4" />
+          GitHub
+        </a>
+      </li>
+    </ul>
+    <p class="mt-4 px-2 font-mono text-[10.5px] text-faint">© {year} · {t.sidebar.rights}</p>
+  </div>
+</aside>

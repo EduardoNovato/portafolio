@@ -1,0 +1,65 @@
+---
+import UiIcon from './UiIcon.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { site } from '../data/site';
+
+interface Props {
+  lang: Lang;
+  index: string;
+}
+
+const { lang, index } = Astro.props;
+const t = useTranslations(lang);
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(t.contact.mailSubject)}`;
+---
+
+<section id={t.sections.contact.id} class="border-t border-line py-24 sm:py-32" aria-labelledby="contact-title">
+  <div class="reveal">
+    <p class="flex items-center gap-3 font-mono text-xs" aria-hidden="true">
+      <span class="text-accent">{index}</span>
+      <span class="h-px w-10 bg-accent/50"></span>
+      <span class="text-faint">{t.sections.contact.label}</span>
+    </p>
+    <h2 id="contact-title" class="mt-5 font-serif text-[clamp(3.2rem,10vw,5.75rem)] leading-[0.95] text-balance text-ink">{t.contact.title}</h2>
+    <p class="mt-6 max-w-[46ch] text-lg leading-relaxed text-pretty text-muted">{t.contact.text}</p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      <a href={mailto} class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-[15px] font-medium text-accent-ink transition-opacity hover:opacity-90">
+        <UiIcon name="mail" />
+        {t.sidebar.write}
+      </a>
+      <button
+        type="button"
+        title={t.contact.copy}
+        data-copy={site.email}
+        data-status="copy-status"
+        data-ok={t.contact.copied}
+        data-error={t.contact.copyError}
+        class="group inline-flex max-w-full items-center gap-2.5 rounded-lg border border-line-strong px-4 py-3 font-mono text-[13.5px] text-ink transition-colors hover:bg-surface-2"
+      >
+        <span class="truncate" translate="no">{site.email}</span>
+        <UiIcon name="copy" class="size-4 shrink-0 text-muted group-data-[state=copied]:hidden" />
+        <UiIcon name="check" class="hidden size-4 shrink-0 text-accent group-data-[state=copied]:block" />
+        <span class="sr-only">{t.contact.copy}</span>
+      </button>
+      <span id="copy-status" role="status" aria-live="polite" class="font-mono text-xs text-accent"></span>
+    </div>
+
+    <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+      <li>
+        <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-muted transition-colors hover:text-ink">
+          <UiIcon name="linkedin" />
+          LinkedIn
+          <UiIcon name="arrow" class="size-3.5 text-faint" />
+        </a>
+      </li>
+      <li>
+        <a href={site.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-muted transition-colors hover:text-ink">
+          <UiIcon name="github" />
+          GitHub
+          <UiIcon name="arrow" class="size-3.5 text-faint" />
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

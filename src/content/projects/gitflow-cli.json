@@ -1,0 +1,16 @@
+{
+  "title": "GitFlow CLI",
+  "order": 2,
+  "year": 2025,
+  "art": "cli",
+  "kind": {
+    "es": "Herramienta CLI · Go",
+    "en": "CLI tool · Go"
+  },
+  "description": {
+    "es": "Herramienta de terminal en Go que simplifica GitHub con menús interactivos: crear, clonar, listar y borrar repositorios, con repos protegidos contra borrados accidentales.",
+    "en": "Go terminal tool that simplifies GitHub with interactive menus: create, clone, list and delete repositories, with protected repos that can’t be deleted by accident."
+  },
+  "stack": ["Go", "Cobra", "Viper", "GitHub CLI"],
+  "repo": "https://github.com/EduardoNovato/cli"
+}

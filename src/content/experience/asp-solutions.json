@@ -1,0 +1,24 @@
+{
+  "company": "ASP Solutions",
+  "role": {
+    "es": "Auxiliar de Ingeniería",
+    "en": "Engineering Assistant"
+  },
+  "start": "2024-02",
+  "end": null,
+  "highlights": {
+    "es": [
+      "Desarrollo y mantenimiento de funciones y procedimientos almacenados para sistemas ERP.",
+      "Optimización de consultas SQL en módulos de facturación, reduciendo el tiempo de respuesta en un **15 %**.",
+      "Adaptación de lógica de negocio entre Oracle y PostgreSQL.",
+      "Scripts de automatización que redujeron el tiempo de resolución de incidencias de soporte en un **20 %**."
+    ],
+    "en": [
+      "Develop and maintain functions and stored procedures for ERP systems.",
+      "Optimized SQL queries in billing modules, cutting response time by **15%**.",
+      "Adapted business logic between Oracle and PostgreSQL.",
+      "Built automation scripts that reduced support incident resolution time by **20%**."
+    ]
+  },
+  "stack": ["PL/SQL", "PL/pgSQL", "Oracle", "PostgreSQL"]
+}

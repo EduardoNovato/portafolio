@@ -1,0 +1,82 @@
+---
+import { siGithub } from 'simple-icons';
+
+type Name = 'download' | 'mail' | 'copy' | 'check' | 'arrow' | 'menu' | 'close' | 'sun' | 'moon' | 'github' | 'linkedin';
+
+interface Props {
+  name: Name;
+  class?: string;
+}
+
+const { name, class: className = 'size-4' } = Astro.props;
+---
+
+{
+  name === 'github' ? (
+    <svg class={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d={siGithub.path} />
+    </svg>
+  ) : name === 'linkedin' ? (
+    <svg class={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.6h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.76v5.59h-4v-4.96c0-1.18-.02-2.7-1.7-2.7-1.7 0-1.96 1.28-1.96 2.61v5.05h-4v-11Z" />
+    </svg>
+  ) : (
+    <svg
+      class={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      {name === 'download' && (
+        <>
+          <path d="M12 4v11" />
+          <path d="m7 10.5 5 5 5-5" />
+          <path d="M5 20h14" />
+        </>
+      )}
+      {name === 'mail' && (
+        <>
+          <rect x="3" y="5" width="18" height="14" rx="2.5" />
+          <path d="m4 7 8 6 8-6" />
+        </>
+      )}
+      {name === 'copy' && (
+        <>
+          <rect x="8.5" y="8.5" width="12" height="12" rx="2.5" />
+          <path d="M15.5 8.5V6a2.5 2.5 0 0 0-2.5-2.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5" />
+        </>
+      )}
+      {name === 'check' && <path d="m5 12.5 4.5 4.5L19 7.5" />}
+      {name === 'arrow' && (
+        <>
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </>
+      )}
+      {name === 'menu' && (
+        <>
+          <path d="M4 7h16" />
+          <path d="M4 12h16" />
+          <path d="M4 17h10" />
+        </>
+      )}
+      {name === 'close' && (
+        <>
+          <path d="M6 6l12 12" />
+          <path d="M18 6 6 18" />
+        </>
+      )}
+      {name === 'sun' && (
+        <>
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4" />
+        </>
+      )}
+      {name === 'moon' && <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" />}
+    </svg>
+  )
+}

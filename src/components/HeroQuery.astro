@@ -1,0 +1,104 @@
+---
+import { languages, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+
+const { lang, class: className } = Astro.props;
+const t = useTranslations(lang);
+
+// Consulta de ejemplo (datos ficticios). k = palabra clave, s = texto literal, el resto va normal.
+type Token = { k?: string; s?: string; v?: string };
+const query: Token[][] = [
+  [{ k: 'SELECT' }, { v: ' cliente_id,' }],
+  [{ v: '       COUNT(*)   ' }, { k: 'AS' }, { v: ' facturas,' }],
+  [{ v: '       SUM(total) ' }, { k: 'AS' }, { v: ' total' }],
+  [{ k: 'FROM' }, { v: '   facturas' }],
+  [{ k: 'WHERE' }, { v: '  fecha >= ' }, { s: "'2026-01-01'" }],
+  [{ k: 'GROUP BY' }, { v: ' cliente_id' }],
+  [{ k: 'ORDER BY' }, { v: ' total ' }, { k: 'DESC' }],
+  [{ k: 'LIMIT' }, { v: '  4;' }],
+];
+
+const rows = [
+  { id: 1042, count: 128, total: 48_200_000 },
+  { id: 1187, count: 96, total: 35_750_000 },
+  { id: 1203, count: 71, total: 29_100_000 },
+  { id: 1310, count: 64, total: 22_480_000 },
+];
+const max = Math.max(...rows.map((row) => row.total));
+const money = new Intl.NumberFormat(languages[lang].locale, { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+const count = new Intl.NumberFormat(languages[lang].locale);
+---
+
+<figure class:list={['hero-query', className]} data-hero-query>
+  <figcaption class="sr-only">{t.hero.illustrationLabel}</figcaption>
+
+  <!-- Cota con la métrica real del CV -->
+  <div class="mb-3 flex items-center gap-2.5 font-mono text-[11px] text-accent" aria-hidden="true">
+    <span class="h-2.5 w-px bg-ill"></span>
+    <span class="h-px flex-1 bg-ill"></span>
+    <span class="whitespace-nowrap">{t.hero.metric}</span>
+    <span class="h-px flex-1 bg-ill"></span>
+    <span class="h-2.5 w-px bg-ill"></span>
+  </div>
+
+  <div class="theme-fade overflow-hidden rounded-xl border border-line-strong bg-surface" translate="no">
+    <div class="flex items-center gap-1.5 border-b border-line px-3.5 py-2.5" aria-hidden="true">
+      <span class="size-2.5 rounded-full border border-ill"></span>
+      <span class="size-2.5 rounded-full border border-ill"></span>
+      <span class="size-2.5 rounded-full bg-accent"></span>
+      <span class="ml-2.5 font-mono text-[11px] text-faint">facturacion.sql</span>
+      <span class="ml-auto rounded border border-line px-1.5 py-px font-mono text-[10px] text-faint">postgres</span>
+    </div>
+
+    <pre
+      class="overflow-x-auto px-4 py-3.5 font-mono text-[12px] leading-[1.75] text-muted [font-variant-ligatures:none] sm:text-[12.5px]"
+      aria-hidden="true"><code>{query.map((line, i) => (
+        <span class="q-line block" style={`--i: ${i}`}>{line.map((token) => token.k ? <span class="text-accent">{token.k}</span> : token.s ? <span class="text-ink">{token.s}</span> : token.v)}</span>
+      ))}</code></pre>
+
+    <div class="relative border-t border-line" aria-hidden="true">
+      <span class="q-run absolute inset-x-0 -top-px h-px origin-left bg-accent"></span>
+      <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-x-5 px-4 pb-1 pt-2.5 font-mono text-[10.5px] text-faint">
+        <span>cliente_id</span>
+        <span class="text-right">facturas</span>
+        <span class="min-w-[11ch] text-right">total</span>
+      </div>
+      <ol class="px-2 pb-2.5">
+        {
+          rows.map((row, i) => (
+            <li class="q-row relative grid grid-cols-[minmax(0,1fr)_auto_auto] gap-x-5 rounded-md px-2 py-[7px] font-mono text-[12px] tabular-nums" style={`--i: ${i}`}>
+              <span
+                class="q-bar absolute inset-y-[3px] left-0 origin-left rounded-md bg-accent-soft"
+                style={`width: ${Math.round((row.total / max) * 100)}%; --i: ${i}`}
+              />
+              <span class="relative text-ink">{row.id}</span>
+              <span class="relative text-right text-muted">{count.format(row.count)}</span>
+              <span class="relative min-w-[11ch] text-right text-ink">{money.format(row.total)}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="q-status flex items-center justify-between gap-3 border-t border-line px-4 py-2.5 font-mono text-[10.5px] text-faint">
+      <span class="flex items-center gap-1.5 whitespace-nowrap" aria-hidden="true">
+        <svg class="size-3 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
+        {t.hero.rows}
+      </span>
+      <span class="truncate" aria-hidden="true">Index Scan · idx_facturas_fecha</span>
+      <button
+        type="button"
+        data-query-run
+        class="-my-1 -mr-1.5 inline-flex shrink-0 items-center gap-1 rounded-md px-1.5 py-1 text-muted transition-colors hover:bg-surface-2 hover:text-accent motion-reduce:hidden"
+      >
+        <svg class="size-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
+        <span aria-hidden="true">{t.hero.run}</span>
+        <span class="sr-only">{t.hero.runLong}</span>
+      </button>
+    </div>
+  </div>
+</figure>

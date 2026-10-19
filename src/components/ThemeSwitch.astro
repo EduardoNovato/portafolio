@@ -1,0 +1,41 @@
+---
+import UiIcon from './UiIcon.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  compact?: boolean;
+}
+
+const { lang, compact = false } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  compact ? (
+    <button
+      type="button"
+      role="switch"
+      aria-checked="true"
+      aria-label={t.sidebar.darkMode}
+      data-theme-toggle
+      class="group grid size-10 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-ink"
+    >
+      <UiIcon name="moon" class="size-[18px] group-aria-checked:hidden" />
+      <UiIcon name="sun" class="hidden size-[18px] group-aria-checked:block" />
+    </button>
+  ) : (
+    <button
+      type="button"
+      role="switch"
+      aria-checked="true"
+      data-theme-toggle
+      class="group inline-flex items-center gap-2.5 rounded-lg py-1 text-xs text-muted transition-colors hover:text-ink"
+    >
+      <span class="relative h-5 w-9 shrink-0 rounded-full border border-line-strong bg-surface-2 transition-colors group-aria-checked:border-accent/40 group-aria-checked:bg-accent-soft">
+        <span class="absolute left-[3px] top-[3px] size-3 rounded-full bg-muted transition-transform duration-200 group-aria-checked:translate-x-4 group-aria-checked:bg-accent" />
+      </span>
+      <span>{t.sidebar.darkMode}</span>
+    </button>
+  )
+}

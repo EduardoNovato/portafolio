@@ -1,0 +1,144 @@
+---
+interface Props {
+  kind: 'erp' | 'cli' | 'nonet' | 'music';
+}
+
+const { kind } = Astro.props;
+
+const bars = [26, 40, 32, 50, 44, 58, 38, 62];
+const menu = ['Create Repository', 'Delete Repository', 'Clone Repository', 'List Repositories'];
+---
+
+<svg viewBox="0 0 320 180" class="h-full w-full" fill="none" aria-hidden="true">
+  {
+    kind === 'erp' && (
+      <g stroke-width="1.1">
+        <rect x="36" y="22" width="248" height="136" rx="8" class="fill-bg stroke-ill" />
+        <path d="M36 40h248M84 40v118" class="stroke-ill" />
+        <circle cx="48" cy="31" r="2.4" class="stroke-ill" />
+        <circle cx="57" cy="31" r="2.4" class="stroke-ill" />
+        <circle cx="66" cy="31" r="2.4" class="fill-accent" />
+        <rect x="104" y="26.5" width="128" height="9" rx="4.5" class="stroke-ill" stroke-width="0.9" />
+        <text x="168" y="33.2" text-anchor="middle" class="fill-faint font-mono" font-size="6.2">localhost:8000/dashboard</text>
+        <path d="M46 54h26" class="stroke-accent" stroke-linecap="round" stroke-width="1.6" />
+        <path d="M46 66h20M46 78h24M46 90h18" class="stroke-ill" stroke-linecap="round" stroke-width="1.6" />
+        {[94, 156, 218].map((x, i) => (
+          <g>
+            <rect x={x} y="50" width="56" height="26" rx="4" class="stroke-ill" />
+            <path d={`M${x + 8} 59h${18 + i * 4}`} class="stroke-ill" stroke-linecap="round" />
+            <path d={`M${x + 8} 68h${30 - i * 3}`} class={i === 0 ? 'stroke-accent' : 'stroke-ill'} stroke-linecap="round" stroke-width="2" />
+          </g>
+        ))}
+        <path d="M94 148h180" class="stroke-ill" />
+        {bars.map((h, i) => (
+          <rect
+            x={98 + i * 22}
+            y={148 - h}
+            width="14"
+            height={h}
+            rx="2"
+            class={i === bars.length - 1 ? 'fill-accent-soft stroke-accent' : 'stroke-ill'}
+          />
+        ))}
+      </g>
+    )
+  }
+
+  {
+    kind === 'cli' && (
+      <g>
+        <rect x="40" y="20" width="240" height="140" rx="8" class="fill-bg stroke-ill" stroke-width="1.1" />
+        <path d="M40 38h240" class="stroke-ill" stroke-width="1.1" />
+        <circle cx="52" cy="29" r="2.4" class="stroke-ill" />
+        <circle cx="61" cy="29" r="2.4" class="stroke-ill" />
+        <circle cx="70" cy="29" r="2.4" class="fill-accent" />
+        <text x="160" y="31.5" text-anchor="middle" class="fill-faint font-mono" font-size="7">gitflow — zsh</text>
+        <text x="54" y="58" class="font-mono" font-size="8.5">
+          <tspan class="fill-accent">$</tspan>
+          <tspan class="fill-ink"> ./gitflow</tspan>
+        </text>
+        <text x="54" y="76" class="font-mono" font-size="8.5">
+          <tspan class="fill-accent">?</tspan>
+          <tspan class="fill-ink"> What do you want to do?</tspan>
+        </text>
+        {menu.map((item, i) => (
+          <text x="54" y={92 + i * 14} class={`font-mono ${i === 0 ? 'fill-accent' : 'fill-faint'}`} font-size="8.5">
+            {i === 0 ? '> ' : '  '}
+            {item}
+          </text>
+        ))}
+        <rect x="54" y="142" width="5" height="9" class="fill-accent" />
+      </g>
+    )
+  }
+
+  {
+    kind === 'nonet' && (
+      <g stroke-width="1.1">
+        <rect x="44" y="20" width="232" height="140" rx="8" class="fill-bg stroke-ill" />
+        <path d="M44 38h232" class="stroke-ill" />
+        <circle cx="56" cy="29" r="2.4" class="stroke-ill" />
+        <circle cx="65" cy="29" r="2.4" class="stroke-ill" />
+        <circle cx="74" cy="29" r="2.4" class="fill-accent" />
+        <text x="160" y="31.5" text-anchor="middle" class="fill-faint font-mono" font-size="7">NONET</text>
+        <rect x="60" y="50" width="200" height="18" rx="4" class="stroke-ill" />
+        <text x="68" y="61.8" class="fill-faint font-mono" font-size="7">https://youtu.be/…</text>
+        <rect x="226" y="54" width="28" height="10" rx="5" class="stroke-accent" stroke-width="0.9" />
+        <text x="240" y="61.2" text-anchor="middle" class="fill-accent font-mono" font-size="6">auto</text>
+        <rect x="60" y="78" width="40" height="16" rx="4" class="fill-accent-soft stroke-accent" />
+        <text x="80" y="88.6" text-anchor="middle" class="fill-accent font-mono" font-size="7">MP4</text>
+        <rect x="100" y="78" width="40" height="16" rx="4" class="stroke-ill" />
+        <text x="120" y="88.6" text-anchor="middle" class="fill-faint font-mono" font-size="7">MP3</text>
+        <rect x="174" y="78" width="38" height="16" rx="8" class="stroke-ill" />
+        <text x="193" y="88.6" text-anchor="middle" class="fill-faint font-mono" font-size="7">720p</text>
+        <rect x="216" y="78" width="44" height="16" rx="8" class="fill-accent-soft stroke-accent" />
+        <text x="238" y="88.6" text-anchor="middle" class="fill-accent font-mono" font-size="7">1080p</text>
+        <path d="M60 106.5h4l2 2h8v8H60z" class="stroke-ill" stroke-linejoin="round" />
+        <path d="M82 112h108" class="stroke-ill" stroke-linecap="round" />
+        <rect x="200" y="104" width="60" height="16" rx="4" class="stroke-ill" />
+        <text x="230" y="114.6" text-anchor="middle" class="fill-muted font-mono" font-size="7">Browse</text>
+        <rect x="60" y="132" width="200" height="6" rx="3" class="stroke-ill" />
+        <rect x="60" y="132" width="128" height="6" rx="3" class="fill-accent" />
+        <text x="60" y="151" class="fill-faint font-mono" font-size="6.5">video.mp4</text>
+        <text x="260" y="151" text-anchor="end" class="fill-accent font-mono" font-size="6.5">64%</text>
+      </g>
+    )
+  }
+
+  {
+    kind === 'music' && (
+      <g stroke-width="1.1">
+        <path d="M102 86h16M202 86h16" class="stroke-ill" stroke-dasharray="2 3" />
+        <rect x="40" y="46" width="62" height="80" rx="8" class="fill-bg stroke-ill" />
+        <rect x="50" y="56" width="42" height="30" rx="4" class="stroke-ill" />
+        <path d="M50 96h34M50 104h24" class="stroke-ill" stroke-linecap="round" />
+        <circle cx="63" cy="116" r="2" class="fill-accent" />
+        <circle cx="71" cy="116" r="2" class="stroke-ill" />
+        <circle cx="79" cy="116" r="2" class="stroke-ill" />
+
+        <rect x="118" y="10" width="84" height="160" rx="14" class="fill-bg stroke-ill" />
+        <path d="M150 20h20" class="stroke-ill" stroke-linecap="round" />
+        <rect x="130" y="30" width="60" height="60" rx="6" class="fill-accent-soft stroke-ill" />
+        <circle cx="160" cy="60" r="20" class="stroke-accent" />
+        <circle cx="160" cy="60" r="6" class="stroke-accent" />
+        <path d="M130 102h48" class="stroke-ill" stroke-linecap="round" stroke-width="2" />
+        <path d="M130 111h30" class="stroke-ill" stroke-linecap="round" />
+        <path d="M130 126h60" class="stroke-ill" stroke-linecap="round" />
+        <path d="M130 126h32" class="stroke-accent" stroke-linecap="round" stroke-width="1.6" />
+        <circle cx="162" cy="126" r="2.6" class="fill-accent" />
+        <path d="M144 140v8l-6-4zM176 140v8l6-4z" class="stroke-ill" stroke-linejoin="round" />
+        <circle cx="160" cy="144" r="8" class="stroke-ink" />
+        <path d="M157.5 140.5v7l6-3.5z" class="fill-ink" />
+
+        <rect x="218" y="40" width="66" height="92" rx="8" class="fill-bg stroke-ill" />
+        {[52, 70, 88, 106].map((y, i) => (
+          <g>
+            <rect x="226" y={y} width="9" height="9" rx="2" class={i === 0 ? 'fill-accent' : 'stroke-ill'} />
+            <path d={`M241 ${y + 3}h${32 - i * 3}`} class="stroke-ill" stroke-linecap="round" />
+            <path d={`M241 ${y + 7.5}h${18 + i * 2}`} class="stroke-ill" stroke-linecap="round" stroke-width="0.8" />
+          </g>
+        ))}
+      </g>
+    )
+  }
+</svg>

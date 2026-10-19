@@ -1,0 +1,17 @@
+{
+  "title": "PCA Music",
+  "order": 4,
+  "year": 2025,
+  "art": "music",
+  "kind": {
+    "es": "App móvil · Seminario",
+    "en": "Mobile app · Coursework"
+  },
+  "description": {
+    "es": "App móvil tipo Spotify hecha en equipo para el seminario del Politécnico de la Costa Atlántica: intro con slides, login, rutas protegidas, tema claro/oscuro y canciones cargadas desde una API.",
+    "en": "Spotify-style mobile app built as a team for a Politécnico de la Costa Atlántica seminar: intro slides, login, guarded routes, light/dark theme and songs loaded from an API."
+  },
+  "stack": ["Angular 20", "Ionic 8", "Capacitor", "TypeScript"],
+  "repo": "https://github.com/EduardoNovato/pca-music-seminario",
+  "demo": "https://pca-music-seminario.vercel.app"
+}

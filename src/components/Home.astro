@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Sidebar from './Sidebar.astro';
+import MobileBar from './MobileBar.astro';
+import Hero from './Hero.astro';
+import Experience from './Experience.astro';
+import Projects from './Projects.astro';
+import Stack from './Stack.astro';
+import About from './About.astro';
+import Contact from './Contact.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { site } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<Base lang={lang}>
+  <a href="#contenido" class="skip-link">{t.skip}</a>
+  <Sidebar lang={lang} />
+  <MobileBar lang={lang} />
+
+  <main id="contenido" tabindex="-1" class="outline-none lg:pl-[300px]">
+    <div class="mx-auto max-w-[940px] px-4 sm:px-8 lg:px-14 xl:max-w-[1080px]">
+      <Hero lang={lang} />
+      <Experience lang={lang} index="01" />
+      <Projects lang={lang} index="02" />
+      <Stack lang={lang} index="03" />
+      <About lang={lang} index="04" />
+      <Contact lang={lang} index="05" />
+
+      <footer class="flex flex-col gap-2 border-t border-line py-8 font-mono text-[11px] text-faint sm:flex-row sm:justify-between">
+        <p>© {year} {site.name}</p>
+        <p>{t.footer.built}</p>
+      </footer>
+    </div>
+  </main>
+</Base>

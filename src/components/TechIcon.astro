@@ -1,0 +1,47 @@
+---
+import { siOpenjdk, siPostgresql, siDocker, siLinux, siGit, siKotlin, siJetpackcompose, siGo, siPython, siPhp, siAstro } from 'simple-icons';
+import type { TechIcon } from '../data/site';
+
+interface Props {
+  name: TechIcon;
+  class?: string;
+}
+
+const { name, class: className = 'size-5' } = Astro.props;
+
+const brand: Partial<Record<TechIcon, string>> = {
+  openjdk: siOpenjdk.path,
+  postgresql: siPostgresql.path,
+  docker: siDocker.path,
+  linux: siLinux.path,
+  git: siGit.path,
+  kotlin: siKotlin.path,
+  jetpackcompose: siJetpackcompose.path,
+  go: siGo.path,
+  python: siPython.path,
+  php: siPhp.path,
+  astro: siAstro.path,
+};
+
+const path = brand[name];
+---
+
+{
+  path ? (
+    <svg class={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d={path} />
+    </svg>
+  ) : name === 'database' ? (
+    <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+      <ellipse cx="12" cy="5.5" rx="7.5" ry="3" />
+      <path d="M4.5 5.5v13c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-13" />
+      <path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3" />
+    </svg>
+  ) : (
+    <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+      <rect x="2.5" y="4" width="19" height="16" rx="3" />
+      <path d="m7 10 2.5 2L7 14" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M12 14.5h5" stroke-linecap="round" />
+    </svg>
+  )
+}

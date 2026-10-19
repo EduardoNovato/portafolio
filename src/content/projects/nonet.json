@@ -1,0 +1,16 @@
+{
+  "title": "NONET",
+  "order": 3,
+  "year": 2025,
+  "art": "nonet",
+  "kind": {
+    "es": "App de escritorio · Python",
+    "en": "Desktop app · Python"
+  },
+  "description": {
+    "es": "App de escritorio para descargar video y audio de YouTube, Facebook, TikTok y X. Detecta la plataforma por la URL, descarga en segundo plano y se distribuye como un .exe portable.",
+    "en": "Desktop app to download video and audio from YouTube, Facebook, TikTok and X. It detects the platform from the URL, downloads in the background and ships as a portable .exe."
+  },
+  "stack": ["Python", "PySide6", "yt-dlp", "FFmpeg"],
+  "repo": "https://github.com/EduardoNovato/nonet"
+}
