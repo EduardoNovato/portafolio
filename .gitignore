@@ -7,7 +7,7 @@ dist/
 node_modules/
 
 # logs y entorno
-npm-debug.log*
+pnpm-debug.log*
 .env
 .env.*
 

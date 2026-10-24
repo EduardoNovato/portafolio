@@ -7,14 +7,14 @@ Sitio estático bilingüe (español en `/`, inglés en `/en/`) con tema claro y 
 
 ## Desarrollo
 
-Requiere Node 22.12 o superior.
+Requiere Node 22.12 o superior y [pnpm](https://pnpm.io) (`npm install -g pnpm`).
 
 ```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # genera dist/
-npm run preview  # sirve dist/ localmente
-npm run check    # revisa tipos y plantillas
+pnpm install
+pnpm dev         # http://localhost:4321
+pnpm build       # genera dist/
+pnpm preview     # sirve dist/ localmente
+pnpm check       # revisa tipos y plantillas
 ```
 
 ## Cómo actualizar el contenido
