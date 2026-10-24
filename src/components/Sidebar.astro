@@ -18,14 +18,14 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(t.contact.mail
 const year = new Date().getFullYear();
 ---
 
-<div data-backdrop class="fixed inset-0 z-40 bg-black/55 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" aria-hidden="true"></div>
+<div data-backdrop class="fixed inset-0 z-40 bg-black/40 opacity-0 pointer-events-none backdrop-blur-[3px] transition-opacity duration-500 ease-ios lg:hidden" aria-hidden="true"></div>
 
 <aside
   id="sidebar"
   data-sidebar
   data-open="false"
   aria-label={t.sidebar.profileLabel}
-  class="theme-fade fixed inset-y-0 left-0 z-50 flex w-[min(300px,86vw)] -translate-x-full flex-col overflow-y-auto overscroll-contain border-r border-line bg-bg px-6 pb-5 pt-5 transition-transform duration-300 ease-out [scrollbar-color:var(--line-strong)_transparent] [scrollbar-width:thin] data-[open=true]:translate-x-0 lg:w-[300px] lg:translate-x-0"
+  class="fixed inset-y-0 left-0 z-50 flex w-[min(300px,86vw)] -translate-x-full flex-col overflow-y-auto overscroll-contain border-r border-line bg-bg px-6 pb-5 pt-5 touch-pan-y transition-transform duration-500 ease-ios [scrollbar-color:var(--line-strong)_transparent] [scrollbar-width:thin] data-[open=true]:translate-x-0 lg:w-[300px] lg:translate-x-0"
 >
   <div class="flex items-center justify-between gap-3">
     <LangSwitch lang={lang} />
@@ -50,18 +50,18 @@ const year = new Date().getFullYear();
       type="button"
       data-menu-close
       aria-label={t.sidebar.menuClose}
-      class="-mr-2 grid size-10 shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-ink lg:hidden"
+      class="-mr-2 grid size-10 shrink-0 place-items-center rounded-lg text-muted press hover:bg-surface-2 hover:text-ink lg:hidden"
     >
       <UiIcon name="close" class="size-5" />
     </button>
   </div>
 
   <dl class="mt-6 grid gap-2">
-    <div class="theme-fade rounded-xl border border-line bg-surface px-4 py-3">
+    <div class="rounded-xl border border-line bg-surface px-4 py-3">
       <dt class="font-mono text-[10.5px] uppercase tracking-[0.14em] text-faint">{t.sidebar.locationLabel}</dt>
       <dd class="mt-1 text-[13.5px] text-ink">{t.sidebar.location}</dd>
     </div>
-    <div class="theme-fade rounded-xl border border-line bg-surface px-4 py-3">
+    <div class="rounded-xl border border-line bg-surface px-4 py-3">
       <dt class="font-mono text-[10.5px] uppercase tracking-[0.14em] text-faint">{t.sidebar.languagesLabel}</dt>
       <dd class="mt-1 text-[13.5px] text-ink">{t.sidebar.languages}</dd>
     </div>
@@ -71,7 +71,7 @@ const year = new Date().getFullYear();
     <a
       href={site.cv}
       download
-      class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2.5 text-[13px] font-medium text-accent-ink transition-opacity hover:opacity-90"
+      class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2.5 text-[13px] font-medium text-accent-ink press hover:opacity-90"
     >
       <UiIcon name="download" class="size-4" />
       {t.sidebar.cv}
@@ -80,7 +80,7 @@ const year = new Date().getFullYear();
     </a>
     <a
       href={mailto}
-      class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-line-strong px-3 py-2.5 text-[13px] font-medium text-ink transition-colors hover:bg-surface-2"
+      class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-line-strong px-3 py-2.5 text-[13px] font-medium text-ink press hover:bg-surface-2"
     >
       {t.sidebar.write}
     </a>
@@ -98,7 +98,7 @@ const year = new Date().getFullYear();
               data-nav={item.id}
               class="group flex items-center gap-3 rounded-lg px-2 py-[7px] text-[14px] text-muted transition-colors hover:text-ink aria-[current=location]:text-ink"
             >
-              <span class="h-px w-7 origin-left scale-x-[0.57] bg-line-strong transition-[transform,background-color] duration-300 group-hover:scale-x-[0.85] group-aria-[current=location]:scale-x-100 group-aria-[current=location]:bg-accent" />
+              <span class="h-px w-7 origin-left scale-x-[0.57] bg-line-strong transition-[scale,background-color] duration-500 group-hover:scale-x-[0.85] group-aria-[current=location]:scale-x-100 group-aria-[current=location]:bg-accent" />
               {item.label}
             </a>
           </li>

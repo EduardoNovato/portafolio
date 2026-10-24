@@ -1,5 +1,5 @@
 ---
-import { languages, useTranslations, type Lang } from '../i18n/ui';
+import { languages, sectionOrder, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -17,7 +17,10 @@ const t = useTranslations(lang);
         hreflang={l.locale}
         lang={l.locale}
         aria-current={code === lang ? 'page' : undefined}
-        class="rounded-md px-2.5 py-1 text-muted transition-colors hover:text-ink aria-[current=page]:bg-surface-2 aria-[current=page]:text-ink"
+        data-astro-prefetch={code === lang ? undefined : ''}
+        data-lang-link
+        data-section-ids={sectionOrder.map((key) => useTranslations(code).sections[key].id).join(',')}
+        class="rounded-md px-2.5 py-1 text-muted press hover:text-ink aria-[current=page]:bg-surface-2 aria-[current=page]:text-ink"
       >
         {l.label}<span class="sr-only"> · {l.name}</span>
       </a>

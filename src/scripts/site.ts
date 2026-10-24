@@ -15,21 +15,48 @@ function syncThemeToggles() {
     .forEach((meta) => meta.setAttribute('content', isDark ? '#0b1012' : '#f1f5f3'));
 }
 
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function applyTheme(theme: Theme) {
+  root.dataset.theme = theme;
+  try {
+    localStorage.setItem('theme', theme);
+  } catch {
+    // Sin almacenamiento disponible: el tema solo dura esta visita
+  }
+  syncThemeToggles();
+}
+
 themeToggles.forEach((button) =>
   button.addEventListener('click', () => {
     const next: Theme = currentTheme() === 'dark' ? 'light' : 'dark';
-    root.dataset.theme = next;
-    try {
-      localStorage.setItem('theme', next);
-    } catch {
-      // Sin almacenamiento disponible: el tema solo dura esta visita
+    if (typeof document.startViewTransition !== 'function' || reduceMotion.matches) {
+      applyTheme(next);
+      return;
     }
-    syncThemeToggles();
+
+    // Todo el sitio cambia en un solo fotograma y el tema nuevo se expande en círculo desde el interruptor
+    const { left, top, width, height } = button.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+
+    root.classList.add('theme-switching');
+    const transition = document.startViewTransition(() => applyTheme(next));
+    transition.ready
+      .then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          // Misma curva que --ease-out
+          { duration: 700, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', pseudoElement: '::view-transition-new(root)' },
+        );
+      })
+      .catch(() => {});
+    transition.finished.finally(() => root.classList.remove('theme-switching'));
   }),
 );
 
 syncThemeToggles();
-requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('theme-ready')));
 
 /* ---------- Menú lateral en móvil ---------- */
 const sidebar = document.querySelector<HTMLElement>('[data-sidebar]');
@@ -61,7 +88,76 @@ sidebar?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) =>
     if (!desktop.matches) setMenu(false, false);
   }),
 );
-desktop.addEventListener('change', () => setMenu(false, false));
+desktop.addEventListener('change', () => {
+  // Al cruzar el punto de corte el panel cambia de sitio sin deslizarse
+  sidebar?.style.setProperty('transition', 'none');
+  setMenu(false, false);
+  requestAnimationFrame(() => requestAnimationFrame(() => sidebar?.style.removeProperty('transition')));
+});
+
+/* ---------- Cerrar el menú deslizándolo hacia la izquierda ---------- */
+type Drag = { startX: number; startY: number; dx: number; axis: 'x' | 'y' | null; lastX: number; lastT: number; velocity: number };
+let drag: Drag | null = null;
+
+function releaseDrag() {
+  sidebar?.style.removeProperty('transition');
+  sidebar?.style.removeProperty('transform');
+  backdrop?.style.removeProperty('transition');
+  backdrop?.style.removeProperty('opacity');
+}
+
+sidebar?.addEventListener(
+  'touchstart',
+  (event) => {
+    if (desktop.matches || sidebar.dataset.open !== 'true') return;
+    const { clientX, clientY } = event.touches[0];
+    drag = { startX: clientX, startY: clientY, dx: 0, axis: null, lastX: clientX, lastT: event.timeStamp, velocity: 0 };
+  },
+  { passive: true },
+);
+
+sidebar?.addEventListener(
+  'touchmove',
+  (event) => {
+    if (!drag) return;
+    const { clientX, clientY } = event.touches[0];
+    const dx = clientX - drag.startX;
+    const dy = clientY - drag.startY;
+    // Se decide la dirección tras unos píxeles: si es vertical, el panel hace scroll normal
+    if (!drag.axis) {
+      if (Math.hypot(dx, dy) < 8) return;
+      drag.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (drag.axis === 'x') {
+        sidebar.style.transition = 'none';
+        backdrop?.style.setProperty('transition', 'none');
+      }
+    }
+    if (drag.axis !== 'x') return;
+
+    drag.velocity = (clientX - drag.lastX) / Math.max(1, event.timeStamp - drag.lastT);
+    drag.lastX = clientX;
+    drag.lastT = event.timeStamp;
+    // Hacia la derecha ofrece resistencia, como los paneles de iOS
+    drag.dx = dx < 0 ? dx : dx / 6;
+    sidebar.style.transform = `translateX(${drag.dx}px)`;
+    backdrop?.style.setProperty('opacity', String(Math.max(0, 1 + Math.min(0, drag.dx) / sidebar.offsetWidth)));
+  },
+  { passive: true },
+);
+
+function endDrag() {
+  if (!drag || !sidebar) return;
+  const { dx, axis, velocity } = drag;
+  drag = null;
+  if (axis !== 'x') return;
+  // Se cierra si pasa de un tercio o si se lanza con rapidez (px/ms); si no, vuelve a su sitio con la misma curva
+  const close = dx < -sidebar.offsetWidth / 3 || velocity < -0.5;
+  releaseDrag();
+  if (close) setMenu(false);
+}
+
+sidebar?.addEventListener('touchend', endDrag);
+sidebar?.addEventListener('touchcancel', endDrag);
 setMenu(false, false);
 
 /* ---------- Sección activa en la navegación ---------- */
@@ -70,10 +166,18 @@ const sections = navLinks
   .map((link) => document.getElementById(link.dataset.nav ?? ''))
   .filter((section): section is HTMLElement => section !== null);
 
+// Enlaces de idioma: apuntan a la misma sección en el otro idioma (las secciones van en el mismo orden)
+const langLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]'));
+
 function setActive(id: string) {
   navLinks.forEach((link) => {
     if (link.dataset.nav === id) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
+  });
+  const index = navLinks.findIndex((link) => link.dataset.nav === id);
+  langLinks.forEach((link) => {
+    const target = link.dataset.sectionIds?.split(',')[index];
+    link.hash = index > 0 && target ? target : '';
   });
 }
 
@@ -107,6 +211,8 @@ document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe
 const heroQuery = document.querySelector<HTMLElement>('[data-hero-query]');
 heroQuery?.querySelector('[data-query-run]')?.addEventListener('click', () => {
   heroQuery.getAnimations({ subtree: true }).forEach((animation) => {
+    // La entrada de la propia ventana no se repite, solo la consulta
+    if ((animation.effect as KeyframeEffect | null)?.target === heroQuery) return;
     animation.cancel();
     animation.play();
   });
@@ -115,6 +221,10 @@ heroQuery?.querySelector('[data-query-run]')?.addEventListener('click', () => {
 /* ---------- Pausar el carrusel de tecnologías ---------- */
 const marquee = document.querySelector<HTMLElement>('[data-marquee]');
 const marqueeToggle = document.querySelector<HTMLButtonElement>('[data-marquee-toggle]');
+// Fuera de pantalla no hace falta seguir animando
+if (marquee) {
+  new IntersectionObserver(([entry]) => marquee.toggleAttribute('data-offscreen', !entry.isIntersecting)).observe(marquee);
+}
 marqueeToggle?.addEventListener('click', () => {
   const paused = !marqueeToggle.hasAttribute('data-paused');
   marqueeToggle.toggleAttribute('data-paused', paused);

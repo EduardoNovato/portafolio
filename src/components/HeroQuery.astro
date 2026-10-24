@@ -4,9 +4,10 @@ import { languages, useTranslations, type Lang } from '../i18n/ui';
 interface Props {
   lang: Lang;
   class?: string;
+  style?: string;
 }
 
-const { lang, class: className } = Astro.props;
+const { lang, class: className, style } = Astro.props;
 const t = useTranslations(lang);
 
 // Consulta de ejemplo (datos ficticios). k = palabra clave, s = texto literal, el resto va normal.
@@ -33,7 +34,7 @@ const money = new Intl.NumberFormat(languages[lang].locale, { style: 'currency',
 const count = new Intl.NumberFormat(languages[lang].locale);
 ---
 
-<figure class:list={['hero-query', className]} data-hero-query>
+<figure class:list={['hero-query', className]} style={style} data-hero-query>
   <figcaption class="sr-only">{t.hero.illustrationLabel}</figcaption>
 
   <!-- Cota con la métrica real del CV -->
@@ -45,7 +46,7 @@ const count = new Intl.NumberFormat(languages[lang].locale);
     <span class="h-2.5 w-px bg-ill"></span>
   </div>
 
-  <div class="theme-fade overflow-hidden rounded-xl border border-line-strong bg-surface" translate="no">
+  <div class="overflow-hidden rounded-xl border border-line-strong bg-surface" translate="no">
     <div class="flex items-center gap-1.5 border-b border-line px-3.5 py-2.5" aria-hidden="true">
       <span class="size-2.5 rounded-full border border-ill"></span>
       <span class="size-2.5 rounded-full border border-ill"></span>
@@ -93,7 +94,7 @@ const count = new Intl.NumberFormat(languages[lang].locale);
       <button
         type="button"
         data-query-run
-        class="-my-1 -mr-1.5 inline-flex shrink-0 items-center gap-1 rounded-md px-1.5 py-1 text-muted transition-colors hover:bg-surface-2 hover:text-accent motion-reduce:hidden"
+        class="-my-1 -mr-1.5 inline-flex shrink-0 items-center gap-1 rounded-md px-1.5 py-1 text-muted press hover:bg-surface-2 hover:text-accent motion-reduce:hidden"
       >
         <svg class="size-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
         <span aria-hidden="true">{t.hero.run}</span>

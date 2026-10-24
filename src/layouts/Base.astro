@@ -1,9 +1,6 @@
 ---
-import '@fontsource/dm-serif-display/400.css';
-import '@fontsource-variable/inter';
-import '@fontsource-variable/jetbrains-mono';
+import { Font, fontData } from 'astro:assets';
 import '../styles/global.css';
-import serifFont from '@fontsource/dm-serif-display/files/dm-serif-display-latin-400-normal.woff2?url';
 import Analytics from '@vercel/analytics/astro';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 import { site } from '../data/site';
@@ -19,6 +16,11 @@ const t = useTranslations(lang);
 const canonical = new URL(languages[lang].path, Astro.site);
 const ogImage = new URL(`/og/${lang}.png`, Astro.site);
 const locale = languages[lang].locale;
+
+// Las tres familias aparecen en la primera pantalla. Se precarga solo la variante latin
+// (la primera de cada familia en astro.config.mjs): todo el texto del sitio cabe en ella.
+const fontFamilies = ['--font-dm-serif', '--font-inter', '--font-jetbrains'] as const;
+const fontPreloads = fontFamilies.map((family) => fontData[family][0].src[0].url);
 
 const person = {
   '@context': 'https://schema.org',
@@ -55,7 +57,8 @@ const person = {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="preload" href={serifFont} as="font" type="font/woff2" crossorigin />
+    {fontFamilies.map((family) => <Font cssVariable={family} />)}
+    {fontPreloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

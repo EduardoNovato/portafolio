@@ -17,6 +17,11 @@ const groups: Tech['group'][] = ['data', 'backend', 'mobile', 'tools'];
 <section id={t.sections.stack.id} class="border-t border-line py-24 sm:py-28">
   <SectionHeading index={index} title={t.sections.stack.label} intro={t.stack.intro} />
 
+  <!-- Sprite: cada icono se define una vez y el carrusel y la lista lo reutilizan -->
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    {techs.map((tech) => <TechIcon name={tech.icon} symbol />)}
+  </svg>
+
   <!-- Carrusel decorativo: la misma información está en la lista de abajo -->
   <div class="relative">
     <div data-marquee class="marquee reveal -mx-4 overflow-hidden border-y border-line py-6 sm:-mx-8 lg:mx-0" aria-hidden="true" translate="no">
@@ -40,7 +45,7 @@ const groups: Tech['group'][] = ['data', 'backend', 'mobile', 'tools'];
       data-marquee-toggle
       data-label-pause={t.stack.pause}
       data-label-play={t.stack.play}
-      class="group absolute -bottom-3 right-0 inline-flex items-center gap-1.5 rounded-md border border-line bg-bg px-2 py-1 font-mono text-[10.5px] text-faint transition-colors hover:border-line-strong hover:text-ink motion-reduce:hidden"
+      class="group absolute -bottom-3 right-0 inline-flex items-center gap-1.5 rounded-md border border-line bg-bg px-2 py-1 font-mono text-[10.5px] text-faint press hover:border-line-strong hover:text-ink motion-reduce:hidden"
     >
       <svg class="size-3 group-data-[paused]:hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
       <svg class="hidden size-3 group-data-[paused]:block" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
@@ -58,7 +63,7 @@ const groups: Tech['group'][] = ['data', 'backend', 'mobile', 'tools'];
               {techs
                 .filter((tech) => tech.group === group)
                 .map((tech) => (
-                  <li class="theme-fade inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-line bg-surface px-3 py-1.5 text-sm text-ink">
+                  <li class="inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-line bg-surface px-3 py-1.5 text-sm text-ink">
                     <TechIcon name={tech.icon} class="size-4 text-muted" />
                     {tech.name}
                   </li>

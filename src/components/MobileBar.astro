@@ -14,7 +14,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<header class="theme-fade sticky top-0 z-30 flex items-center justify-between border-b border-line bg-bg/85 px-4 py-2.5 backdrop-blur-md sm:px-6 lg:hidden">
+<header class="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-bg/75 px-4 py-2.5 backdrop-blur-xl backdrop-saturate-150 sm:px-6 lg:hidden">
   <a href={`#${t.sections.home.id}`} class="flex items-center gap-2.5 rounded-lg">
     <Image src={avatar} alt="" width={30} height={30} densities={[1, 2]} class="size-[30px] rounded-full border border-line-strong object-cover" loading="eager" />
     <span class="font-serif text-lg text-ink">{site.name}</span>
@@ -27,7 +27,7 @@ const t = useTranslations(lang);
       aria-controls="sidebar"
       aria-expanded="false"
       aria-label={t.sidebar.menuOpen}
-      class="grid size-10 place-items-center rounded-lg text-ink transition-colors hover:bg-surface-2"
+      class="grid size-10 place-items-center rounded-lg text-ink press hover:bg-surface-2"
     >
       <UiIcon name="menu" class="size-5" />
     </button>
