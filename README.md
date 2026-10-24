@@ -44,12 +44,12 @@ pnpm dev
 
 El sitio queda en <http://localhost:4321>.
 
-| Comando | Qué hace |
-| --- | --- |
-| `pnpm dev` | Servidor de desarrollo con recarga en vivo |
-| `pnpm build` | Genera el sitio estático en `dist/` |
+| Comando        | Qué hace                                                  |
+| -------------- | --------------------------------------------------------- |
+| `pnpm dev`     | Servidor de desarrollo con recarga en vivo                |
+| `pnpm build`   | Genera el sitio estático en `dist/`                       |
 | `pnpm preview` | Sirve `dist/` localmente para revisarlo antes de publicar |
-| `pnpm check` | Revisa tipos y plantillas de Astro |
+| `pnpm check`   | Revisa tipos y plantillas de Astro                        |
 
 ## Estructura
 
@@ -72,14 +72,14 @@ public/
 
 ## Actualizar el contenido
 
-| Qué | Dónde |
-| --- | --- |
-| Proyectos | Un `.json` por proyecto en `src/content/projects/`; el campo `order` define la posición |
-| Experiencia | Un `.json` por trabajo en `src/content/experience/`; las cifras entre `**dobles asteriscos**` se resaltan |
-| Textos en ambos idiomas | `src/i18n/ui.ts` |
-| Correo, links y tecnologías del carrusel | `src/data/site.ts` |
-| Colores y tipografía | Variables al inicio de `src/styles/global.css` |
-| CV descargable | `public/cv/eduardo-coronell-cv.pdf` |
+| Qué                                      | Dónde                                                                                                     |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Proyectos                                | Un `.json` por proyecto en `src/content/projects/`; el campo `order` define la posición                   |
+| Experiencia                              | Un `.json` por trabajo en `src/content/experience/`; las cifras entre `**dobles asteriscos**` se resaltan |
+| Textos en ambos idiomas                  | `src/i18n/ui.ts`                                                                                          |
+| Correo, links y tecnologías del carrusel | `src/data/site.ts`                                                                                        |
+| Colores y tipografía                     | Variables al inicio de `src/styles/global.css`                                                            |
+| CV descargable                           | `public/cv/eduardo-coronell-cv.pdf`                                                                       |
 
 ### Agregar un proyecto
 
@@ -91,7 +91,10 @@ Crea un archivo nuevo en `src/content/projects/`, por ejemplo `mi-proyecto.json`
   "order": 5,
   "year": 2026,
   "art": "cli",
-  "kind": { "es": "Herramienta de línea de comandos · Go", "en": "Command-line tool · Go" },
+  "kind": {
+    "es": "Herramienta de línea de comandos · Go",
+    "en": "Command-line tool · Go"
+  },
   "description": {
     "es": "Qué hace y qué problema resuelve, en una o dos frases.",
     "en": "What it does and which problem it solves, in one or two sentences."
@@ -105,17 +108,6 @@ Crea un archivo nuevo en `src/content/projects/`, por ejemplo `mi-proyecto.json`
 `demo` es opcional. `art` elige la ilustración de la tarjeta entre las que ya existen
 (`erp`, `cli`, `nonet`, `music`). Para una ilustración nueva, dibújala en
 `src/components/ProjectArt.astro` y agrega su clave al `enum` de `art` en `src/content.config.ts`.
-
-> [!IMPORTANT]
-> El teléfono no se publica en ninguna parte del sitio. Exporta el CV **sin teléfono** antes de
-> reemplazar `public/cv/eduardo-coronell-cv.pdf`.
-
-## Despliegue
-
-Vercel detecta Astro y pnpm automáticamente: importa el repositorio y no hace falta configurar nada.
-Cada push a `main` publica una versión nueva.
-
-Para ver las visitas, activa **Web Analytics** en el panel del proyecto en Vercel; el script ya está incluido.
 
 ## Licencia
 
