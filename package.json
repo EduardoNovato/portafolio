@@ -4,6 +4,7 @@
   "private": true,
   "description": "Portafolio de Eduardo Coronell, Desarrollador Backend",
   "author": "Eduardo Coronell",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
