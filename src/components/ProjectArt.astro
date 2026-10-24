@@ -1,45 +1,51 @@
 ---
 interface Props {
-  kind: 'erp' | 'cli' | 'nonet' | 'music';
+  kind: 'sql' | 'cli' | 'nonet' | 'music';
 }
 
 const { kind } = Astro.props;
 
-const bars = [26, 40, 32, 50, 44, 58, 38, 62];
+// Árbol de un plan de ejecución: profundidad, ancho de la barra de tiempo y si es el paso lento
+const plan = [
+  { label: 'Hash Join', depth: 0, time: 60 },
+  { label: 'Seq Scan on lineitem', depth: 1, time: 52, hot: true },
+  { label: 'Hash', depth: 1, time: 8 },
+  { label: 'Index Scan on orders', depth: 2, time: 6 },
+];
 const menu = ['Create Repository', 'Delete Repository', 'Clone Repository', 'List Repositories'];
 ---
 
 <svg viewBox="0 0 320 180" class="h-full w-full" fill="none" aria-hidden="true">
   {
-    kind === 'erp' && (
+    kind === 'sql' && (
       <g stroke-width="1.1">
-        <rect x="36" y="22" width="248" height="136" rx="8" class="fill-bg stroke-ill" />
-        <path d="M36 40h248M84 40v118" class="stroke-ill" />
-        <circle cx="48" cy="31" r="2.4" class="stroke-ill" />
-        <circle cx="57" cy="31" r="2.4" class="stroke-ill" />
-        <circle cx="66" cy="31" r="2.4" class="fill-accent" />
-        <rect x="104" y="26.5" width="128" height="9" rx="4.5" class="stroke-ill" stroke-width="0.9" />
-        <text x="168" y="33.2" text-anchor="middle" class="fill-faint font-mono" font-size="6.2">localhost:8000/dashboard</text>
-        <path d="M46 54h26" class="stroke-accent" stroke-linecap="round" stroke-width="1.6" />
-        <path d="M46 66h20M46 78h24M46 90h18" class="stroke-ill" stroke-linecap="round" stroke-width="1.6" />
-        {[94, 156, 218].map((x, i) => (
-          <g>
-            <rect x={x} y="50" width="56" height="26" rx="4" class="stroke-ill" />
-            <path d={`M${x + 8} 59h${18 + i * 4}`} class="stroke-ill" stroke-linecap="round" />
-            <path d={`M${x + 8} 68h${30 - i * 3}`} class={i === 0 ? 'stroke-accent' : 'stroke-ill'} stroke-linecap="round" stroke-width="2" />
-          </g>
-        ))}
-        <path d="M94 148h180" class="stroke-ill" />
-        {bars.map((h, i) => (
-          <rect
-            x={98 + i * 22}
-            y={148 - h}
-            width="14"
-            height={h}
-            rx="2"
-            class={i === bars.length - 1 ? 'fill-accent-soft stroke-accent' : 'stroke-ill'}
-          />
-        ))}
+        <rect x="36" y="20" width="248" height="140" rx="8" class="fill-bg stroke-ill" />
+        <path d="M36 38h248" class="stroke-ill" />
+        <circle cx="48" cy="29" r="2.4" class="stroke-ill" />
+        <circle cx="57" cy="29" r="2.4" class="stroke-ill" />
+        <circle cx="66" cy="29" r="2.4" class="fill-accent" />
+        <rect x="104" y="24.5" width="128" height="9" rx="4.5" class="stroke-ill" stroke-width="0.9" />
+        <text x="168" y="31.2" text-anchor="middle" class="fill-faint font-mono" font-size="6.2">explain-sql.vercel.app</text>
+        <rect x="50" y="48" width="44" height="14" rx="7" class="fill-accent-soft stroke-accent" stroke-width="0.9" />
+        <circle cx="59" cy="55" r="2" class="fill-accent" />
+        <text x="65" y="57.6" class="fill-accent font-mono" font-size="7">slow</text>
+        <text x="102" y="57.6" class="fill-faint font-mono" font-size="7">1,204 ms</text>
+        {plan.map((step, i) => {
+          const y = 78 + i * 13;
+          const x = 54 + step.depth * 12;
+          return (
+            <g>
+              {step.depth > 0 && <path d={`M${x - 8} ${y - 8}v5h5`} class="stroke-ill" stroke-width="0.9" />}
+              <text x={x} y={y} class={`font-mono ${step.hot ? 'fill-accent' : 'fill-muted'}`} font-size="7">
+                {step.label}
+              </text>
+              <rect x="204" y={y - 5} width="66" height="5" rx="2.5" class="stroke-ill" stroke-width="0.8" />
+              <rect x="204" y={y - 5} width={step.time} height="5" rx="2.5" class={step.hot ? 'fill-accent' : 'fill-ill'} />
+            </g>
+          );
+        })}
+        <rect x="50" y="128" width="220" height="20" rx="4" class="fill-accent-soft stroke-accent" stroke-width="0.9" />
+        <text x="58" y="140.6" class="fill-accent font-mono" font-size="6.8">CREATE INDEX ON lineitem (l_partkey);</text>
       </g>
     )
   }

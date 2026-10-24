@@ -12,7 +12,7 @@ const projects = defineCollection({
     title: z.string(),
     order: z.number(),
     year: z.number(),
-    art: z.enum(['erp', 'cli', 'nonet', 'music']),
+    art: z.enum(['sql', 'cli', 'nonet', 'music']),
     kind: text,
     description: text,
     stack: z.array(z.string()),

@@ -1,0 +1,17 @@
+{
+  "title": "Explica SQL",
+  "order": 1,
+  "year": 2026,
+  "art": "sql",
+  "kind": {
+    "es": "Herramienta web · Rendimiento SQL",
+    "en": "Web tool · SQL performance"
+  },
+  "description": {
+    "es": "Pega el plan de ejecución de PostgreSQL u Oracle y te dice por qué la consulta es lenta: veredicto, árbol con el tiempo de cada paso y hallazgos con el SQL para copiar. Con el índice que sugirió, una consulta de TPC-H bajó de 238 s a 26 ms.",
+    "en": "Paste a PostgreSQL or Oracle execution plan and it tells you why the query is slow: a verdict, a tree with each step's time and findings with SQL ready to copy. The index it suggested took a TPC-H query from 238 s to 26 ms."
+  },
+  "stack": ["TypeScript", "Astro", "React", "PostgreSQL", "Oracle"],
+  "repo": "https://github.com/EduardoNovato/explica-sql",
+  "demo": "https://explain-sql.vercel.app"
+}

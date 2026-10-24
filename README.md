@@ -106,7 +106,7 @@ Crea un archivo nuevo en `src/content/projects/`, por ejemplo `mi-proyecto.json`
 ```
 
 `demo` es opcional. `art` elige la ilustración de la tarjeta entre las que ya existen
-(`erp`, `cli`, `nonet`, `music`). Para una ilustración nueva, dibújala en
+(`sql`, `cli`, `nonet`, `music`). Para una ilustración nueva, dibújala en
 `src/components/ProjectArt.astro` y agrega su clave al `enum` de `art` en `src/content.config.ts`.
 
 ## Licencia
